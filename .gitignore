@@ -1,3 +1,5 @@
 *.pyc
 *.DS_Store
-venv/.
+/bets/local_settings.py
+/static/*
+/fab_tools/fab_settings.py

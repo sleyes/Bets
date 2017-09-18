@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load security %}
+
+{% block body %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <h1>Bets console</h1>
+    <hr>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Text</th>
+                <th>Autor</th>
+                <th style="width: 400px;">result</th>
+                <th>...</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in question_list %}
+                <tr>
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.text }}</td>
+                    <td>{{ question.create_user }}</td>
+                    <td>
+                        {% if question.get_result %}
+                        <script type="text/javascript">
+                          google.charts.load('current', {'packages':['corechart']});
+                          google.charts.setOnLoadCallback(drawChart);
+
+                          function drawChart() {
+
+                            var data = google.visualization.arrayToDataTable([
+                              ['Respuestas', 'Cantidad'],
+                              {% for x in question.get_result %}['{{ x.0 }}',     {{ x.1 }}],{% endfor%}
+                            ]);
+
+                            var options = {
+                              legend: { position: "none" },
+                            };
+                            var chart = new google.visualization.BarChart(document.getElementById('piechart_{{ question.id }}'));
+
+                            chart.draw(data, options);
+                          }
+                        </script>
+                        <div id="piechart_{{ question.id }}" style="width: 400px; height: 80px;"></div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if request.user|has_administrator_group %}
+                        <a href="/bets/{{ question.id }}/">Edit</a>
+                        {% endif %}
+                        {% if request.user|has_player_group %}
+                        <a href="/bets/{{ question.id }}/bet/">Play</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

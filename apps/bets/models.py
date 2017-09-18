@@ -36,7 +36,7 @@ class Answer(models.Model):
         return "%s" % self.text
 
 
-class Bets(models.Model):
+class Bet(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question, blank=True, null=True)
     answer = models.ForeignKey(Answer)
@@ -50,4 +50,4 @@ class Bets(models.Model):
 
     def save(self, *args, **kwargs):
         self.question = self.answer.question
-        return super(Bets, self.save(*args, **wkargs))
+        return super(Bet, self.save(*args, **wkargs))
