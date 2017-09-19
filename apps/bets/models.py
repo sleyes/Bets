@@ -20,6 +20,13 @@ class Question(models.Model):
     def answers(self):
         return Answer.objects.filter(question=self)
 
+    def get_result(self):
+        answers = RespuestaValidas.objects.filter(pregunta=self)
+        dic = []
+        for x in answers:
+            dic.append((x.text, Bets.objects.filter(answer=x).count()))
+        return dic
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question)
@@ -34,6 +41,10 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return "%s" % self.text
+
+    @property
+    def question_text(self):
+        return self.question.text
 
 
 class Bet(models.Model):

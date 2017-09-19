@@ -7,7 +7,7 @@
     <div class="navbar-nav" style="position: absolute; right:15px">
         {% if request.user.is_authenticated %}
         <a class="nav-item nav-link" href="#">{{ request.user }}</a>
-        <a class="nav-item nav-link" href="/logout/">Logout</a>
+        <a class="nav-item nav-link" href="/accounts/logout/">Logout</a>
         {% else %}
         <a class="nav-item nav-link" href="javascript: open_modal_register()">Register</a>
         <a class="nav-item nav-link" href="/accounts/login/">Login</a>
