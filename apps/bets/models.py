@@ -21,10 +21,10 @@ class Question(models.Model):
         return Answer.objects.filter(question=self)
 
     def get_result(self):
-        answers = RespuestaValidas.objects.filter(pregunta=self)
+        answers = Answer.objects.filter(question=self)
         dic = []
         for x in answers:
-            dic.append((x.text, Bets.objects.filter(answer=x).count()))
+            dic.append((x.text, Bet.objects.filter(answer=x).count()))
         return dic
 
 
